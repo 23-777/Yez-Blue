@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yezz & Blue</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("images/fondo-inferior.jpeg");
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* MENÚ */
+        .menu {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .menu button {
+            background: rgba(255,255,255,0.85);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* PÁGINAS */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 100px 20px 80px;
+        }
+
+        .page.active { display: block; }
+
+        /* BOTÓN VOLVER */
+        .back-btn {
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 900;
+        }
+
+        /* HERO */
+        .hero {
+            height: 70vh;
+            background-image: url("images/fondo-principal.jpeg");
+            background-size: cover;
+            background-position: center 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .titulo {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            font-size: 88px;
+            font-weight: bold;
+        }
+
+        .yezz { color: #f7faff; }
+        .and { color: #f7faff; font-size: 72px; margin-bottom: 10px; }
+        .blue { color: #2a7fd6; }
+
+        .subtitulo { font-size: 22px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+
+        /* CARDS */
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 70px;
+            padding: 40px 20px;
+            margin-top: -60px;
+        }
+
+        .side { width: 240px; margin-top: 30px; }
+        .left { transform: rotate(-4deg); }
+        .right { transform: rotate(4deg); }
+
+        .tv-img { width: 165px; display: block; margin: 15px auto; }
+        .camera-img { width: 105px; display: block; margin: 15px auto; }
+
+        /* LIBRO */
+        .book-container { position: relative; width: 520px; height: 380px; }
+        .libro-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.3)); }
+
+        .book-text {
+            position: absolute;
+            top: 18%; left: 52%;
+            width: 42%; height: 65%;
+            padding-right: 30px;
+            overflow-y: auto;
+            font-size: 15.8px;
+            line-height: 1.6;
+            color: #222;
+        }
+
+        /* BLOG */
+        .blog-intro {
+            max-width: 700px;
+            margin: 0 auto 50px;
+            text-align: center;
+            font-size: 19px;
+            background: rgba(255,255,255,0.35);
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .polaroid-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 15px 15px 40px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: rotate(-2deg);
+            width: 220px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .polaroid:hover {
+            transform: rotate(1deg) scale(1.06);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.25);
+        }
+
+        /* OTRAS SECCIONES */
+        .section-title { 
+            text-align: center; 
+            font-size: 52px; 
+            margin-bottom: 40px; 
+            color: #222; 
+        }
+
+        .info-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            background: rgba(255,255,255,0.92);
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .donaciones-grid {
+            max-width: 700px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .donacion-item {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .highlight { color: #e63946; font-weight: bold; }
+
+        footer { text-align: right; padding: 25px 40px; color: #555; }
+    </style>
+</head>
+
+<body>
+
+<!-- MENÚ PRINCIPAL -->
+<nav class="menu">
+    <button onclick="showSection('home')">Home</button>
+    <button onclick="showSection('blog')">Blog</button>
+    <button onclick="showSection('farmacia')">Farmacia</button>
+    <button onclick="showSection('donaciones')">Donaciones</button>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="page active">
+    <div class="hero">
+        <h1 class="titulo">
+            <span class="yezz">Yezz</span>
+            <span class="and">&</span>
+            <span class="blue">Blue</span>
+        </h1>
+        <p class="subtitulo">Bienvenidxs a mi rincón de internet</p>
+    </div>
+
+    <div class="cards">
+        <div class="card side left" onclick="showSection('who')">
+            <h2>Who is Yezalel?</h2>
+            <img src="images/tele.png" class="tv-img">
+        </div>
+
+        <div class="card libro">
+            <div class="book-container">
+                <img src="images/libro.png" class="libro-img" alt="Libro">
+                <div class="book-text">
+                    <h2>Sobre mi página</h2>
+                    <p>Creé esta página más que nada para documentar mis desgracias matutinas (porque me creo Carrie Bradshaw), y el cómo es la vida de un estudiante de farmacia independizado. También para compartir apuntes, programas, PDF, etc. de la carrera, disponibles para todo ser que lo necesite ❤️</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card side right" onclick="showSection('redes')">
+            <h2>Mis otras redes</h2>
+            <img src="images/camera.png" class="camera-img">
+        </div>
+    </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog" class="page">
+    <button class="back-btn" onclick="showSection('home')">← Volver al Home</button>
+    <h1 class="section-title">Yezz Is Crying</h1>
+    <p class="blog-intro">
+        "Yezz is crying" es mi blog personal. Aquí escribo y publico todo lo que pasa por mi cabeza y vida. 
+        Espero puedas sentirte tan cómodo leyendo esto como yo escribiéndolo ❤️
+    </p>
+
+    <div class="polaroid-grid">
+        <!-- 20 entradas -->
+        <div class="polaroid" onclick="alert('Entrada 1')">Entrada 1</div>
+        <div class="polaroid" onclick="alert('Entrada 2')">Entrada 2</div>
+        <div class="polaroid" onclick="alert('Entrada 3')">Entrada 3</div>
+        <div class="polaroid" onclick="alert('Entrada 4')">Entrada 4</div>
+        <div class="polaroid" onclick="alert('Entrada 5')">Entrada 5</div>
+        <div class="polaroid" onclick="alert('Entrada 6')">Entrada 6</div>
+        <div class="polaroid" onclick="alert('Entrada 7')">Entrada 7</div>
+        <div class="polaroid" onclick="alert('Entrada 8')">Entrada 8</div>
+        <div class="polaroid" onclick="alert('Entrada 9')">Entrada 9</div>
+        <div class="polaroid" onclick="alert('Entrada 10')">Entrada 10</div>
+        <div class="polaroid" onclick="alert('Entrada 11')">Entrada 11</div>
+        <div class="polaroid" onclick="alert('Entrada 12')">Entrada 12</div>
+        <div class="polaroid" onclick="alert('Entrada 13')">Entrada 13</div>
+        <div class="polaroid" onclick="alert('Entrada 14')">Entrada 14</div>
+        <div class="polaroid" onclick="alert('Entrada 15')">Entrada 15</div>
+        <div class="polaroid" onclick="alert('Entrada 16')">Entrada 16</div>
+        <div class="polaroid" onclick="alert('Entrada 17')">Entrada 17</div>
+        <div class="polaroid" onclick="alert('Entrada 18')">Entrada 18</div>
+        <div class="polaroid" onclick="alert('Entrada 19')">Entrada 19</div>
+        <div class="polaroid" onclick="alert('Entrada 20')">Entrada 20</div>
+    </div>
+</section>
+
+<!-- WHO -->
+<section id="who" class="page">
+    <button class="back-btn" onclick="showSection('home')">← Volver al Home</button>
+    <h1 class="section-title">Yezalel</h1>
+    <div class="info-grid">
+        <div class="info-item"><strong>Edad:</strong> 19</div>
+        <div class="info-item"><strong>Color favorito:</strong> Verde y Azul</div>
+        <div class="info-item"><strong>Comida favorita:</strong> Pizza</div>
+        <div class="info-item"><strong>Videojuegos favoritos:</strong> Life is Strange, The Last of Us, Resident Evil</div>
+        <div class="info-item"><strong>Carrera:</strong> Estudiante de Farmacia</div>
+    </div>
+</section>
+
+<!-- REDES -->
+<section id="redes" class="page">
+    <button class="back-btn" onclick="showSection('home')">← Volver al Home</button>
+    <h1 class="section-title">Mis otras redes</h1>
+    <div class="info-grid">
+        <div class="info-item"><strong>Instagram:</strong> @yezalel.r</div>
+        <div class="info-item"><strong>TikTok:</strong> yezz.r</div>
+        <div class="info-item"><strong>Gmail:</strong> yezalelr@gmail.com</div>
+        <div class="info-item"><strong>Teléfono:</strong> telefono no disponible</div>
+    </div>
+</section>
+
+<!-- DONACIONES -->
+<section id="donaciones" class="page">
+    <button class="back-btn" onclick="showSection('home')">← Volver al Home</button>
+    <h1 class="section-title">Donaciones</h1>
+    <div class="donaciones-grid">
+        <div class="donacion-item">
+            <strong>Mercado Pago</strong><br>
+            Alias: <span class="highlight">yeza.tlou</span><br>
+            CBU: <span class="highlight">0000003100074310403332</span>
+        </div>
+        <div class="donacion-item">
+            <strong>Naranja X</strong><br>
+            Alias: <span class="highlight">yezalel.23</span><br>
+            CBU: <span class="highlight">4530000800019004039770</span>
+        </div>
+        <div class="donacion-item">
+            <strong>BNA</strong><br>
+            Alias: <span class="highlight">iam.yeza</span><br>
+            CBU: <span class="highlight">0110422030042216368629</span>
+        </div>
+    </div>
+</section>
+
+<!-- FARMACIA -->
+<section id="farmacia" class="page">
+    <button class="back-btn" onclick="showSection('home')">← Volver al Home</button>
+    <h1 class="section-title">Farmacia</h1>
+    <p style="text-align:center; font-size:20px; margin-top:40px;">Próximamente: Apuntes y material de estudio</p>
+</section>
+
+<footer>Yezz & Blue © 2026</footer>
+
+<script>
+    function showSection(sectionId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        const page = document.getElementById(sectionId);
+        if (page) {
+            page.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    }
+
+    // Hacer la función disponible
+    window.showSection = showSection;
+
+    console.log("✅ Página cargada correctamente");
+</script>
+
+</body>
+</html>
